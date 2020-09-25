@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+
+<div class="container">
+    <div class="card text-left">
+        <% messages.forEach(message => { %>
+            <div class="card-body">
+                <h4 class="card-title"><%=message.name%></h4>
+                <p class="card-text"><%=message.content%></p>
+            </div>
+        <% }); %>
+    </div>
+
+    <div class="form-group">
+        <label for=""></label>
+        <textarea class="form-control" name="" id="" rows="3"></textarea>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
