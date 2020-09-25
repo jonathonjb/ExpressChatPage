@@ -71,24 +71,29 @@ app.route('/register')
         res.render('register');
     })
     .post(ensureNotAuthenticated, async (req, res, next) => {
-        try {
-            let hash = await bcrypt.hash(req.body.password, 10);
-            let newUser = new User({
-                username: req.body.username,
-                email: req.body.email,
-                password: hash
-            });
-
-            let result = await newUser.save();
-            if (result != null) {
-                res.redirect('/messages');
-            }
-            else {
-                next(result);
-            }
+        if (req.body.password !== req.body.retyped_password) {
+            res.redirect('/register');
         }
-        catch (err) {
-            console.error(err);
+        else {
+            try {
+                let hash = await bcrypt.hash(req.body.password, 10);
+                let newUser = new User({
+                    username: req.body.username,
+                    email: req.body.email,
+                    password: hash
+                });
+
+                let result = await newUser.save();
+                if (result != null) {
+                    res.redirect('/messages');
+                }
+                else {
+                    next(result);
+                }
+            }
+            catch (err) {
+                console.error(err);
+            }
         }
     })
 
