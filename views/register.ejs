@@ -2,30 +2,38 @@
 
 <div class="container">
     <h1>Register your account</h1>
+    <br />
+    <h5 class="form-text text-muted">Sign-up through</h5>
+    <div class='row'>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <form action='/auth/google'><button class="btn btn-primary btn">Google</button></form>
+        &nbsp;&nbsp;
+        <form action='/auth/facebook'><button class="btn btn-primary btn">Facebook</button></form>
+    </div>
+    <br />
+    <h5 class="form-text text-muted">Or register your account manually</h5>
     <form class="form-group authentication-form" method='POST'>
         <label for=""></label>
         <input type="text" class="form-control" name="username" id="username" placeholder="">
-        <small id="emailHelpId" class="form-text text-muted">Type in your username</small>
+        <small id="emailHelpId" class="form-text text-muted">Username</small>
 
         <label for=""></label>
         <input type="email" class="form-control" name="email" id="email" placeholder="">
-        <small id="emailHelpId" class="form-text text-muted">Type in your email</small>
+        <small id="emailHelpId" class="form-text text-muted">Email address</small>
 
         <label for=""></label>
         <input type="password" class="form-control" name="password" id="password" placeholder="">
-        <small id="emailHelpId" class="form-text text-muted">Type in your password</small>
+        <small id="emailHelpId" class="form-text text-muted">Password</small>
 
         <label for=""></label>
         <input type="password" class="form-control" name="retyped-password" id="retyped-password" placeholder="">
-        <small id="emailHelpId" class="form-text text-muted">Retype your password</small>
+        <small id="emailHelpId" class="form-text text-muted">Retype password</small>
 
+        <br />
 
         <button type="submit" class="btn btn-primary">Register</button>
         <a class="btn btn-outline-secondary btn" href="/login" role="button">Login</a>
     </form>
-    <small class="form-text text-muted">Or sign-in using</small>
-    <form action='/auth/google'><button class="btn btn-primary btn-sm">Google</button></form>
-    <br /><br />
 </div>
 
 <%- include('partials/footer') %>

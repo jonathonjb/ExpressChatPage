@@ -105,6 +105,16 @@ app.route('/auth/google/redirect')
         res.redirect('/messages');
     });
 
+app.route('/auth/facebook')
+    .get(passport.authenticate('facebook', {
+        scope: ['email']
+    }));
+
+app.route('/auth/facebook/redirect')
+    .get(passport.authenticate('facebook'), (req, res) => {
+        res.redirect('/messages');
+    })
+
 app.route('/logout')
     .post((req, res) => {
         req.logout();
@@ -131,7 +141,6 @@ app.route('/message')
         });
         try{
             await newMessage.save();
-            res.redirect('/messages');
             let user = await User.findOne({username: req.user.username});
             user.messages.push(newMessage);
             await user.save();

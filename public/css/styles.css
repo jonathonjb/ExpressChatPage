@@ -1,5 +1,7 @@
 .authentication-form {
   width: 50%;
+  border-style: ridge;
+  padding: 0.3em;
 }
 
 .footer {
@@ -15,4 +17,5 @@
     position: relative;
     height: 18em;
     overflow-y: scroll;
+    border-style: ridge;
 }
