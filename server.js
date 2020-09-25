@@ -1,10 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const auth = require('./auth');
 const passport = require('passport');
 const session = require('express-session');
-const { authenticate } = require('passport');
 
 const app = express();
 
@@ -12,30 +12,32 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
-    secret: 'Fdpyb3EQY782Uu8D8KkGMyqmcqozqR',
+    secret: process.env.SESSION_SECRET,
     resave: false, 
     saveUninitialized: false
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-mongoose.connect('mongodb://localhost/userDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useCreateIndex', true);
 
 const userSchema = new mongoose.Schema({
-    username: {type: String, unique: true, required: true},
-    email: {type: String, required: true},
-    password: {type: String, required: true},
-    messages: []
+    username: String,
+    email: String,
+    password: String,
+    messages: [],
+    googleId: String
 });
 const messageSchema = new mongoose.Schema({
     username: String,
-    message: String
+    message: String,
+    date: {type: Date, default: Date.now}
 });
 
 const User = new mongoose.model('User', userSchema);
-const Message = new mongoose.model('Message', userSchema);
+const Message = new mongoose.model('Message', messageSchema);
 
 auth.initialize(passport, User);
 
@@ -93,6 +95,22 @@ app.route('/login')
         })
     );
 
+app.route('/auth/google')
+    .get(passport.authenticate('google', {
+        scope: ['profile', 'email']
+    }));
+
+app.route('/auth/google/redirect')
+    .get(passport.authenticate('google'), (req, res) => {
+        res.redirect('/messages');
+    });
+
+app.route('/logout')
+    .post((req, res) => {
+        req.logout();
+        res.redirect('/');
+    });
+
 app.route('/messages')
     .get(ensureAuthenticated, async (req, res) => {
         let messages = []
@@ -106,8 +124,22 @@ app.route('/messages')
     });
 
 app.route('/message')
-    .post((req, res) => {
-
+    .post(async (req, res) => {
+        let newMessage = new Message({
+            username: req.user.username,
+            message: req.body.message
+        });
+        try{
+            await newMessage.save();
+            res.redirect('/messages');
+            let user = await User.findOne({username: req.user.username});
+            user.messages.push(newMessage);
+            await user.save();
+            res.redirect('messages');
+        }
+        catch(err){
+            console.error(err);
+        }
     });
 
 

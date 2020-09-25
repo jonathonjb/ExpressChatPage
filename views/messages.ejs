@@ -1,19 +1,24 @@
 <%- include('partials/header') %>
+<%- include('partials/nav') %>
 
 <div class="container">
-    <div class="card text-left">
-        <% messages.forEach(message => { %>
+    <div id='messages-box'>
+        <div class="card text-left">
+            <% messages.forEach(message => { %>
             <div class="card-body">
-                <h4 class="card-title"><%=message.name%></h4>
-                <p class="card-text"><%=message.content%></p>
+                <h4 class="card-title"><%=message.username%></h4>
+                <p class="card-text"><%=message.message%></p>
             </div>
-        <% }); %>
+            <% }); %>
+        </div>
     </div>
 
-    <div class="form-group">
+    <form class="form-group" action='/message' method='POST'>
         <label for=""></label>
-        <textarea class="form-control" name="" id="" rows="3"></textarea>
-    </div>
+        <textarea class="form-control" name="message" id="message" rows="3"></textarea>
+        <br />
+        <button type="submit" name="submit" id="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+    </form>
 </div>
 
 <%- include('partials/footer') %>
