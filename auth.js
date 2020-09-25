@@ -14,10 +14,15 @@ function initialize(passport, User) {
     async function authenticateUser(username, password, done) {
         try {
             let user = await User.findOne({ email: username }).exec();
-            if(await bcrypt.compare(password, user.password)){
-                return done(null, user);
+            if(user){
+                if(await bcrypt.compare(password, user.password)){
+                    return done(null, user);
+                }
+                else {
+                    return done(null, false);
+                }
             }
-            else {
+            else{
                 return done(null, false);
             }
         }
