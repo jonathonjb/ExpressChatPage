@@ -1,11 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const auth = require('./auth');
+const passport = require('passport');
+const session = require('express-session');
 
 const app = express();
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({
+    secret: 'Fdpyb3EQY782Uu8D8KkGMyqmcqozqR',
+    resave: false, 
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 mongoose.connect('mongodb://localhost/userDB', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useCreateIndex', true);
@@ -24,10 +34,8 @@ const messageSchema = new mongoose.Schema({
 const User = new mongoose.model('User', userSchema);
 const Message = new mongoose.model('Message', userSchema);
 
-let messages = [
-    {name: 'Jonathon Brandt', content: 'Hello everybody!'},
-    {name: 'Josh Rodgers', content: 'Hey there!'}
-];
+
+auth(passport, User);
 
 app.route('/')
     .get((req, res) => {
@@ -38,50 +46,42 @@ app.route('/register')
     .get((req, res, next) => {
         res.render('register');
     })
-    .post((req, res, next) => {
+    .post(async (req, res, next) => {
         let newUser = new User({
             username: req.body.username,
             email: req.body.email,
             password: req.body.password
         });
 
-        newUser.save((err) => {
-            if(err){
-                next(err);
-            }
-            else{
-                res.redirect('/messages');
-            }
-        });
+        let result = await newUser.save();
+        if(result != null){
+            res.redirect('/messages');
+        }
+        else{
+            next(result);
+        }
     })
 
 app.route('/login')
     .get((req, res) => {
         res.render('login');
     })
-    .post((req, res, next) => {
-        User.findOne({email: req.body.email}, (err, user) => {
-            if(err){
-                next(err);
-            }
-            else{
-                if(user){
-                    if(req.body.password === user.password){
-                        res.redirect('/messages');
-                    }
-                    else{
-                        res.redirect('/login');
-                    }
-                }
-                else{
-                    res.redirect('/login');
-                }
-            }
-        });
-    });
+    .post(
+        passport.authenticate('local', {
+            successRedirect: '/messages',
+            failureRedirect: '/login'
+        })
+    );
 
 app.route('/messages')
-    .get((req, res) => {
+    .get(async (req, res) => {
+        let messages = []
+        try{
+            let messages = await Message.find({}).exec();
+        }
+        catch(err){
+            console.error(err);
+        }
         res.render('messages', {messages: messages});
     });
 
