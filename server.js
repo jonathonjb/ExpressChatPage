@@ -14,7 +14,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    resave: false, 
+    resave: false,
     saveUninitialized: false
 }));
 
@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
 const messageSchema = new mongoose.Schema({
     username: String,
     message: String,
-    date: {type: Date, default: Date.now}
+    date: { type: Date, default: Date.now }
 });
 
 const User = new mongoose.model('User', userSchema);
@@ -43,20 +43,20 @@ const Message = new mongoose.model('Message', messageSchema);
 
 auth.initialize(passport, User);
 
-function ensureAuthenticated(req, res, next){
-    if(!req.isAuthenticated()){
+function ensureAuthenticated(req, res, next) {
+    if (!req.isAuthenticated()) {
         res.redirect('/login');
     }
-    else{
+    else {
         next();
     }
 }
 
-function ensureNotAuthenticated(req, res, next){
-    if(req.isAuthenticated()){
+function ensureNotAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
         res.redirect('/messages');
     }
-    else{
+    else {
         next();
     }
 }
@@ -71,19 +71,24 @@ app.route('/register')
         res.render('register');
     })
     .post(ensureNotAuthenticated, async (req, res, next) => {
-        let hash = await bcrypt.hash(req.body.password, 10);
-        let newUser = new User({
-            username: req.body.username,
-            email: req.body.email,
-            password: hash
-        });
+        try {
+            let hash = await bcrypt.hash(req.body.password, 10);
+            let newUser = new User({
+                username: req.body.username,
+                email: req.body.email,
+                password: hash
+            });
 
-        let result = await newUser.save();
-        if(result != null){
-            res.redirect('/messages');
+            let result = await newUser.save();
+            if (result != null) {
+                res.redirect('/messages');
+            }
+            else {
+                next(result);
+            }
         }
-        else{
-            next(result);
+        catch (err) {
+            console.error(err);
         }
     })
 
@@ -127,13 +132,13 @@ app.route('/logout')
 app.route('/messages')
     .get(ensureAuthenticated, async (req, res) => {
         let messages = []
-        try{
+        try {
             messages = await Message.find({}).exec();
         }
-        catch(err){
+        catch (err) {
             console.error(err);
         }
-        res.render('messages', {messages: messages});
+        res.render('messages', { messages: messages });
     });
 
 app.route('/message')
@@ -142,14 +147,14 @@ app.route('/message')
             username: req.user.username,
             message: req.body.message
         });
-        try{
+        try {
             await newMessage.save();
-            let user = await User.findOne({username: req.user.username});
+            let user = await User.findOne({ username: req.user.username });
             user.messages.push(newMessage);
             await user.save();
             res.redirect('messages');
         }
-        catch(err){
+        catch (err) {
             console.error(err);
         }
     });
