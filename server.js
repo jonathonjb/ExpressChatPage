@@ -29,7 +29,8 @@ const userSchema = new mongoose.Schema({
     email: String,
     password: String,
     messages: [],
-    googleId: String
+    googleId: String,
+    facebookId: String
 });
 const messageSchema = new mongoose.Schema({
     username: String,
