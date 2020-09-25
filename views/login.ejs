@@ -2,15 +2,9 @@
 
 <div class="container">
     <h1>Login into your account</h1>
-    <br />
-    <h5 class="form-text text-muted">Sign-up through</h5>
-    <div class='row'>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <form action='/auth/google'><button class="btn btn-primary btn">Google</button></form>
-        &nbsp;&nbsp;
-        <form action='/auth/facebook'><button class="btn btn-primary btn">Facebook</button></form>
-    </div>
-    <br />
+
+    <%- include('partials/thirdPartySignIns') %>
+    
     <h5 class="form-text text-muted">Or login into your account</h5>
     <form class="form-group authentication-form" method='POST'>
         <label for=""></label>
