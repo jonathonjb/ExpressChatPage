@@ -4,13 +4,13 @@ const mongoose = require('mongoose');
 const auth = require('./auth');
 const passport = require('passport');
 const session = require('express-session');
+const { authenticate } = require('passport');
 
 const app = express();
+
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
-
-
 app.use(session({
     secret: 'Fdpyb3EQY782Uu8D8KkGMyqmcqozqR',
     resave: false, 
@@ -18,6 +18,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 mongoose.connect('mongodb://localhost/userDB', { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useCreateIndex', true);
@@ -36,8 +37,7 @@ const messageSchema = new mongoose.Schema({
 const User = new mongoose.model('User', userSchema);
 const Message = new mongoose.model('Message', userSchema);
 
-
-auth(passport, User);
+auth.initialize(passport, User);
 
 function ensureAuthenticated(req, res, next){
     if(!req.isAuthenticated()){
@@ -97,7 +97,7 @@ app.route('/messages')
     .get(ensureAuthenticated, async (req, res) => {
         let messages = []
         try{
-            let messages = await Message.find({}).exec();
+            messages = await Message.find({}).exec();
         }
         catch(err){
             console.error(err);

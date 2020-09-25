@@ -1,16 +1,12 @@
 const LocalStrategy = require('passport-local').Strategy;
+const mongoose = require('mongoose');
 
-module.exports = (passport, User) => {
-    async function authenticateUser(email, password, done){
-        console.log('AUTHENTICATING USER');
+function initialize (passport, User){
+    async function authenticateUser(username, password, done){
         try{
-            let user = await User.findOne({email: email}).exec();
-            console.log('user: ');
-            console.log(user);
-            console.log('password: ');
-            console.log(password);
+            let user = await User.findOne({email: username}).exec();
             if(user.password === password){
-                return done(null, true);
+                return done(null, user);
             }
             else{
                 return done(null, false);
@@ -21,15 +17,13 @@ module.exports = (passport, User) => {
         }
     }
 
-    passport.use(new LocalStrategy(authenticateUser));
+    passport.use(new LocalStrategy({usernameField: 'email'}, authenticateUser));
 
     passport.serializeUser((user, done) => {
-        console.log('serializing user');
         done(null, user._id);
     });
 
     passport.deserializeUser(async (id, done) => {
-        console.log('deserializing user');
         try{
             const user = await User.findById(id).exec();
             done(null, user);
@@ -37,5 +31,7 @@ module.exports = (passport, User) => {
         catch(err){
             done(err);
         }
-    }) 
+    });
 }
+
+module.exports = {initialize};
