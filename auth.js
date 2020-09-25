@@ -1,6 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 
 function initialize(passport, User) {
@@ -13,7 +14,7 @@ function initialize(passport, User) {
     async function authenticateUser(username, password, done) {
         try {
             let user = await User.findOne({ email: username }).exec();
-            if (user.password === password) {
+            if(await bcrypt.compare(password, user.password)){
                 return done(null, user);
             }
             else {

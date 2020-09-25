@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const auth = require('./auth');
 const passport = require('passport');
 const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 const app = express();
 
@@ -69,10 +70,11 @@ app.route('/register')
         res.render('register');
     })
     .post(ensureNotAuthenticated, async (req, res, next) => {
+        let hash = await bcrypt.hash(req.body.password, 10);
         let newUser = new User({
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password
+            password: hash
         });
 
         let result = await newUser.save();
