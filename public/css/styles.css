@@ -19,3 +19,80 @@
     overflow-y: scroll;
     border-style: ridge;
 }
+
+.headerCenter {
+  text-align: center;
+}
+
+#form-body {
+  text-align: center;
+  padding: 10px;
+}
+
+.signin_label {
+  font-family: 'Rock Salt', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.pad50 {
+  padding-top: 50px;
+}
+
+.signin_button {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  padding-right: 30px;
+  padding-left: 70px;
+  position: relative;
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  text-transform: none;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+}
+
+.signin_button:hover {
+  text-decoration: none;
+  color: #fff;
+  text-shadow: none;
+  cursor: pointer;
+}
+
+.signin_button p {
+  font-size: 18px;
+}
+
+.signin_button span {
+  position: absolute;
+  left: 0;
+  width: 50px;
+  font-size: 30px;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+  text-decoration: none;
+}
+
+.signin_button.twitter {
+  background: #00acee;
+}
+
+.signin_button.facebook {
+  background: #3b5998;
+}
+
+.signin_button.google {
+  background: #4285F4;
+}
+
+.text-center {
+  text-align: center;
+}

@@ -1,24 +1,29 @@
 <%- include('partials/header') %>
 
 <div class="container">
-    <h1>Login into your account</h1>
+    <h1 class="headerCenter">Login into your account</h1>
 
     <%- include('partials/thirdPartySignIns') %>
-    
-    <h5 class="form-text text-muted">Or login into your account</h5>
-    <form class="form-group authentication-form" method='POST'>
-        <label for=""></label>
-        <input type="email" class="form-control" name="email" id="email" placeholder="">
-        <small id="emailHelpId" class="form-text text-muted">Type in your email</small>
 
-        <label for=""></label>
-        <input type="password" class="form-control" name="password" id="password" placeholder="">
-        <small id="emailHelpId" class="form-text text-muted">Type in your password</small>
+    <div class="row justify-content-center">
+        <h5 class="form-text text-muted">Or login into your account</h5>
+    </div>
 
-        <br />
-        <button type="submit" class="btn btn-primary btn">Login</button>
-        <a class="btn btn-outline-secondary btn" href="/register" role="button">Register</a>
-    </form>
+    <div class="row justify-content-center">
+        <form class="form-group authentication-form" method='POST'>
+            <label for=""></label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="">
+            <small id="emailHelpId" class="form-text text-muted">Type in your email</small>
+
+            <label for=""></label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="">
+            <small id="emailHelpId" class="form-text text-muted">Type in your password</small>
+
+            <br />
+            <button type="submit" class="btn btn-primary btn">Login</button>
+            <a class="btn btn-outline-secondary btn" href="/register" role="button">Register</a>
+        </form>
+    </div>
 </div>
 
 <%- include('partials/footer') %>

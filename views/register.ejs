@@ -1,33 +1,38 @@
 <%- include('partials/header') %>
 
 <div class="container">
-    <h1>Register your account</h1>
+    <h1 class="headerCenter">Register your account</h1>
 
     <%- include('partials/thirdPartySignIns') %>
-    
-    <h5 class="form-text text-muted">Or register your account manually</h5>
-    <form class="form-group authentication-form" method='POST'>
-        <label for=""></label>
-        <input type="text" class="form-control" name="username" id="username" placeholder="">
-        <small id="emailHelpId" class="form-text text-muted">Username</small>
 
-        <label for=""></label>
-        <input type="email" class="form-control" name="email" id="email" placeholder="">
-        <small id="emailHelpId" class="form-text text-muted">Email address</small>
+    <div class="row justify-content-center">
+        <h5 class="form-text text-muted">Or register your account manually</h5>
+    </div>
 
-        <label for=""></label>
-        <input type="password" class="form-control" name="password" id="password" placeholder="">
-        <small id="emailHelpId" class="form-text text-muted">Password</small>
+    <div class="row justify-content-center">
+        <form class="form-group authentication-form" method='POST'>
+            <label for=""></label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="">
+            <small id="emailHelpId" class="form-text text-muted">Username</small>
 
-        <label for=""></label>
-        <input type="password" class="form-control" name="retyped-password" id="retyped-password" placeholder="">
-        <small id="emailHelpId" class="form-text text-muted">Retype password</small>
+            <label for=""></label>
+            <input type="email" class="form-control" name="email" id="email" placeholder="">
+            <small id="emailHelpId" class="form-text text-muted">Email address</small>
 
-        <br />
+            <label for=""></label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="">
+            <small id="emailHelpId" class="form-text text-muted">Password</small>
 
-        <button type="submit" class="btn btn-primary">Register</button>
-        <a class="btn btn-outline-secondary btn" href="/login" role="button">Login</a>
-    </form>
+            <label for=""></label>
+            <input type="password" class="form-control" name="retyped-password" id="retyped-password" placeholder="">
+            <small id="emailHelpId" class="form-text text-muted">Retype password</small>
+
+            <br />
+
+            <button type="submit" class="btn btn-primary">Register</button>
+            <a class="btn btn-outline-secondary btn" href="/login" role="button">Login</a>
+        </form>
+    </div>
 </div>
 
 <%- include('partials/footer') %>

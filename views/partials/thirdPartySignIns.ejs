@@ -1,16 +1,20 @@
-<!-- Required code for the Google sign-up button -->
-<meta name="google-signin-client_id" content="my_client_id">
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-
-<!-- Required code for the Facebook sign-up button -->
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0&appId=249291373107803&autoLogAppEvents=1" nonce="oBUekJAR"></script>
 
 <br />
-<h5 class="form-text text-muted">Sign-up using</h5>
+<div id='form-body'>
+    <h5 class="form-text text-muted">Sign-up using</h5>
 
-<form action='/auth/facebook'><div class="fb-login-button" data-size="large" data-button-type="continue_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="true" data-width=""></div></form>
-<br />
-<form action='/auth/google'><div class="g-signin2"></div></form>
+    <form id='facebookSubmit' action='/auth/facebook'>
+        <a onclick="document.getElementById('facebookSubmit').submit()" class="signin_button facebook"><span><i
+                    class="fa fa-facebook" aria-hidden="true"></i></span>
+            <div class="signin_label">Facebook</div>
+        </a>
+    </form>
+    <form id='googleSubmit' action='/auth/google'>
+        <a onclick="document.getElementById('googleSubmit').submit()" class="signin_button google"><span><i
+                    class="fa fa-google" aria-hidden="true"></i></span>
+            <div class="signin_label">Google</div>
+        </a>
+    </form>
+</div>
 
 <br />
