@@ -9,6 +9,8 @@ const app = express();
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
 app.use(session({
     secret: 'Fdpyb3EQY782Uu8D8KkGMyqmcqozqR',
     resave: false, 
@@ -37,16 +39,34 @@ const Message = new mongoose.model('Message', userSchema);
 
 auth(passport, User);
 
+function ensureAuthenticated(req, res, next){
+    if(!req.isAuthenticated()){
+        res.redirect('/login');
+    }
+    else{
+        next();
+    }
+}
+
+function ensureNotAuthenticated(req, res, next){
+    if(req.isAuthenticated()){
+        res.redirect('/messages');
+    }
+    else{
+        next();
+    }
+}
+
 app.route('/')
     .get((req, res) => {
         res.render('home')
     });
 
 app.route('/register')
-    .get((req, res, next) => {
+    .get(ensureNotAuthenticated, (req, res, next) => {
         res.render('register');
     })
-    .post(async (req, res, next) => {
+    .post(ensureNotAuthenticated, async (req, res, next) => {
         let newUser = new User({
             username: req.body.username,
             email: req.body.email,
@@ -63,10 +83,10 @@ app.route('/register')
     })
 
 app.route('/login')
-    .get((req, res) => {
+    .get(ensureNotAuthenticated, (req, res) => {
         res.render('login');
     })
-    .post(
+    .post(ensureNotAuthenticated,
         passport.authenticate('local', {
             successRedirect: '/messages',
             failureRedirect: '/login'
@@ -74,7 +94,7 @@ app.route('/login')
     );
 
 app.route('/messages')
-    .get(async (req, res) => {
+    .get(ensureAuthenticated, async (req, res) => {
         let messages = []
         try{
             let messages = await Message.find({}).exec();
