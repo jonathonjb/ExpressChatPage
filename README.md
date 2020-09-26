@@ -16,5 +16,6 @@ All of the express routes are placed here. For this web application, I used the 
 ### auth.js
 This is the module which contains all of the neccessary functions to set up the passport.js strategies. Since we have three different ways for the user to log into our page (Manual registration, facebook, google), we need three different strategies allocated with passport.js, and three different functions which checks if the database contains that account. All of these are placed in this file, in addition to the synchronizeUser and desynchronizeUser functions. 
 
+![Home Screen](https://github.com/jonathonjb2015/ExpressChatPage/blob/master/readme_images/HomeScreen.png)
 
-The authentication process was done using the passport.js express library. You may view the passport.js documentation here: http://www.passportjs.org/docs/
+![Messages page](https://github.com/jonathonjb2015/ExpressChatPage/blob/master/readme_images/Messages.png)
