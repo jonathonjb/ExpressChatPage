@@ -18,4 +18,6 @@ This is the module which contains all of the neccessary functions to set up the 
 
 ![Home Screen](https://github.com/jonathonjb2015/ExpressChatPage/blob/master/readme_images/HomeScreen.png)
 
+![Sign Up Screen](https://github.com/jonathonjb/ExpressChatPage/blob/master/readme_images/ChatPageSignUp.png)
+
 ![Messages page](https://github.com/jonathonjb2015/ExpressChatPage/blob/master/readme_images/Messages.png)
